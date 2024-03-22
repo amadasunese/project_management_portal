@@ -681,8 +681,8 @@ def dashboard():
 
     exchange_rates = {'EUR': 0.85, 'USD': 1, 'NGN': 900}
 
-    # Querying the top 3 most recently added projects
-    top_projects = Project.query.order_by(Project.date_added.desc()).limit(3).all()
+    # # Querying the top 3 most recently added projects
+    # top_projects = Project.query.order_by(Project.date_added.desc()).limit(3).all()
 
     total_budget_usd = db.session.query(db.func.sum(Project.project_amount)).scalar() or 0
 
@@ -698,8 +698,8 @@ def dashboard():
                            projects=projects,
                            total_budget_usd=formatted_total_budget_usd,
                            total_budget_eur=formatted_total_budget_eur,
-                           total_budget_ngn=formatted_total_budget_ngn,
-                           top_projects=top_projects)
+                           total_budget_ngn=formatted_total_budget_ngn)
+
 
 ##############################
 # Signup and login routes #
