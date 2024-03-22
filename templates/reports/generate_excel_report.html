@@ -1,0 +1,41 @@
+<!-- pdf_report_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Report in Excel</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;    
+        }
+    </style>
+</head>
+<body>
+    <h1>Project Report</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Donor</th>
+            <th>Thematic Area</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Amount</th>
+        </tr>
+        {% for project in projects %}
+        <tr>
+            <td>{{ project.name }}</td>
+            <td>{{ project.donor }}</td>
+            <td>{{ project.thematic_area }}</td>
+            <td>{{ project.start_date | date_format }}</td>
+            <td>{{ project.end_date | date_format }}</td>
+            <td>{{ project.project_amount | format_currency }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

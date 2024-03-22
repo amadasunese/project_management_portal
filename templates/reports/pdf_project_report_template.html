@@ -1,0 +1,141 @@
+<!-- pdf_report_template.html -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Report</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;    
+        }
+    </style>
+</head>
+<body>
+    <h1>Project Report</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Donor</th>
+            <th>Thematic Area</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Amount</th>
+        </tr>
+        {% for project in projects %}
+        <tr>
+            <td>{{ project.name }}</td>
+            <td>{{ project.donor }}</td>
+            <td>{{ project.thematic_area }}</td>
+            <td>{{ project.start_date | date_format }}</td>
+            <td>{{ project.end_date | date_format }}</td>
+            <td>{{ project.project_amount | format_currency }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; }
+        h1, h2, h3 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        td, th { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    {% for project in projects %}
+    <h1>Project: {{ project.name }}</h1>
+    <table>
+        <tr>
+            <th>Donor</th>
+            <th>Thematic Area</th>
+            <th>Duration</th>
+            <th>Project Amount</th>
+        </tr>
+        <tr>
+            <td>{{ project.donor }}</td>
+            <td>{{ project.thematic_area }}</td>
+            <td>{{ project.start_date.strftime('%Y-%m-%d') }} to {{ project.end_date.strftime('%Y-%m-%d') }}</td>
+            <td>${{ project.project_amount }}</td>
+        </tr>
+    </table>
+
+    <h2>Activities</h2>
+    {% for activity in project.activities %}
+        <h3>{{ activity.name }}</h3>
+        <table>
+            <tr>
+                <th>Target Beneficiaries</th>
+                <th>Budget</th>
+                <th>Approved Budget</th>
+            </tr>
+            <tr>
+                <td>{{ activity.target_beneficiaries }}</td>
+                <td>${{ activity.budget_amount }}</td>
+                <td>${{ activity.approved_budget_amount }}</td>
+            </tr>
+        </table>
+
+        <h4>Reports</h4>
+        <table>
+            <tr>
+                <th>Report Name</th>
+                <th>Period From</th>
+                <th>Period To</th>
+                <th>Number Reached Male</th>
+                <th>Number Reached Female</th>
+                <th>Written Report</th>
+                <th>Photos</th>
+            </tr>
+            {% for report in activity.reports %}
+            <tr>
+                <td>{{ report.name }}</td>
+                <td>{{ report.date_from.strftime('%Y-%m-%d') }}</td>
+                <td>{{ report.date_to.strftime('%Y-%m-%d') }}</td>
+                <td>{{ report.number_reached_male }}</td>
+                <td>{{ report.number_reached_female }}</td>
+                <td><a href="{{ report.written_report }}">Download</a></td>
+                <td><a href="{{ report.photos }}">View</a></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7">No reports available.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No activities available.</p>
+    {% endfor %}
+
+    <h2>Financial Reports</h2>
+    <table>
+        <tr>
+            <th>Budget</th>
+            <th>Expenditure</th>
+        </tr>
+        {% for financial_report in project.financial_reports %}
+        <tr>
+            <td>${{ financial_report.budget }}</td>
+            <td>${{ financial_report.expenditure }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="2">No financial reports available.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <hr>
+    {% endfor %}
+</body>
+</html>
+

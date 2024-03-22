@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Edit Report</h2>
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('main.edit_report', report_id=report.id) }}">
+        <div class="form-group">
+            <label for="activity_id">Activity ID:</label>
+            <input type="number" class="form-control" id="activity_id" name="activity_id" value="{{ report.activity_id }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="donor">Donor:</label>
+            <input type="text" class="form-control" id="donor" name="donor" value="{{ report.donor }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date_from">Date From:</label>
+            <input type="date" class="form-control" id="date_from" name="date_from" value="{{ report.date_from  }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date_to">Date To:</label>
+            <input type="date" class="form-control" id="date_to" name="date_to" value="{{ report.date_to }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="number_reached_male">Number Reached (Male):</label>
+            <input type="number" class="form-control" id="number_reached_male" name="number_reached_male" value="{{ report.number_reached_male }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="number_reached_female">Number Reached (Female):</label>
+            <input type="number" class="form-control" id="number_reached_female" name="number_reached_female" value="{{ report.number_reached_female }}" required>
+        </div>
+
+        <!-- For the file inputs, if you want to show existing files, you need to handle them separately -->
+        <!-- File inputs do not have a value attribute -->
+
+        <button type="submit" class="btn btn-primary">Update Report</button>
+    </form>
+{% endblock %}

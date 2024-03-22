@@ -1,0 +1,49 @@
+<!-- pdf_report_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Report</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;    
+        }
+    </style>
+</head>
+<body>
+    <
+
+    <h1>List of Activities</h1>
+    <table>
+        <tr>
+            <th>Name of Project</th>
+            <th>Name of Activity</th>
+            <th>Expected Number of Beneficiaries</th>
+            <th>Numbers of Beneficiaries Reached (Male)</th>
+            <th>Numbers of Beneficiaries Reached (Female)</th>
+            <th>Activity Budget</th>
+            <th>Approved Budget</th>
+        </tr>
+        {% for activity in activities %}
+        <tr>
+            <td>{{ activity.project.name }}</td>
+            <td>{{ activity.name }}</td>
+            <td>{{ activity.target_beneficiaries }}</td>
+            <td>{{ activity.target_beneficiaries_male }}</td>
+            <td>{{ activity.target_beneficiaries_female }}</td>
+            <td>${{ activity.budget_amount }}</td>
+            <td>${{ activity.approved_budget_amount }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+   
+        
+</body>
+</html>
+

@@ -1,0 +1,221 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.custom-form-group {
+    margin-bottom: 1rem;
+}
+
+.custom-form-group label {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: bold;
+}
+
+.custom-form-group input {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+.custom-table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.custom-table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.custom-table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+.btn-custom {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+
+
+/* styles.css */
+
+/* General page styling */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Dashboard header */
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Dashboard content */
+.analysis {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+/* Report data display */
+.analysis p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Report generation section */
+.analysis h2 {
+    color: #444;
+    margin-bottom: 15px;
+}
+
+/* Buttons styling */
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+/* landing page */
+
+/* styles.css */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.landing-container, .login-container {
+    text-align: center;
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.flash-messages {
+    list-style-type: none;
+    padding: 0;
+    color: #d9534f;
+}
+
+.flash-messages li {
+    margin-bottom: 10px;
+}
+
+form {
+    margin-top: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+form button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+
+/* dashboard project section */
+
+
+.container-dash {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.count, .amount {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.total-projects {
+    color: #3498db;
+}
+
+.total-budget-usd, .total-budget-eur, .total-budget-ngn {
+    color: #95a5a6;
+}
+
+.heading-dash {
+    background-color: #032142; /* Example: a nice shade of blue */
+    color: #ffffff; /* White text color for contrast */
+    width: 100%; /* Ensure the div takes up the full viewport width */
+    margin: 0; /* Remove any default margin */
+    padding: 20px 0; /* Add some padding above and below the text */
+    text-align: center; /* Center-align the text */
+   
+}
+
+
+.sticky-footer {
+    height: 60px; /* Footer height */
+}
+.main-content {
+    padding-bottom: 60px; /* Footer height */
+}

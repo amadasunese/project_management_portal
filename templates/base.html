@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GPI Database Application</title>
+    <!-- Tailwind CSS -->
+    <link href="static/css/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Additional styles if needed */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+    <!-- Custom Styles -->
+    <style>
+        .sticky-footer {
+            height: 60px; /* Footer height */
+        }
+        .main-content {
+            padding-bottom: 60px; /* Footer height */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <header>
+        <!-- Sticky Navigation Bar -->
+        <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 sticky top-0 z-50">
+            <!-- Logo and Navbar brand name -->
+            <div class="container flex flex-wrap justify-between items-center mx-auto">
+                <a class="flex items-center" href="#">
+                    <img src="/static/images/gpilogo.png" class="mr-3 h-6 sm:h-9" alt="Logo">
+                    <span class="self-center text-xl font-semibold whitespace-nowrap">Girls' Power Initiative (GPI)</span>
+                </a>
+
+                <!-- Toggler -->
+                <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+
+                <!-- Navbar items -->
+                <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+                    <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+                        <li><a href="{{ url_for('main.login') }}" class="block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0" aria-current="page">Home</a></li>
+                        
+                        <!-- Projects Dropdown -->
+                        <li class="dropdown relative">
+                            <a href="#" class="dropdown-button block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0 cursor-pointer">Projects</a>
+                            <ul class="dropdown-menu absolute hidden bg-white border rounded shadow">
+                                <li><a href="{{ url_for('main.create_project') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">Add New Project</a></li>
+                                <li><a href="{{ url_for('main.project_list') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">View List of Projects</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Activities Dropdown -->
+                        <li class="dropdown relative">
+                            <a href="#" class="dropdown-button block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0 cursor-pointer">Activities</a>
+                            <ul class="dropdown-menu absolute hidden bg-white border rounded shadow">
+                                <li><a href="{{ url_for('main.activity') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">Add New Activity</a></li>
+                                <li><a href="{{ url_for('main.activity_list') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">View List of Activities</a></li>
+                            </ul>
+                        </li>
+                        
+                        <!-- Reports Dropdown -->
+                        <li class="dropdown relative">
+                            <a href="#" class="dropdown-button block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0 cursor-pointer">Reports</a>
+                            <ul class="dropdown-menu absolute hidden bg-white border rounded shadow">
+                                <li><a href="{{ url_for('main.report') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">Create New Report</a></li>
+                                <li><a href="{{ url_for('main.report_list') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">View List of Reports</a></li>
+                                <li><a href="{{ url_for('main.activity_list') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">Activity Reports</a></li>
+                                <li><a href="{{ url_for('main.financial_report') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">Financial Reports</a></li>
+                            </ul>
+                        </li>
+                        
+                        <!-- Additional navigation items -->
+                        <li><a href="{{ url_for('main.analysis') }}" class="block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0">Analysis</a></li>
+                        <li><a href="{{ url_for('main.dashboard') }}" class="block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0">Dashboard</a></li>
+                        <li><a href="{{ url_for('main.logout') }}" class="block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0">Logout</a></li>
+                    </ul>
+                        
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="sticky-footer bg-gray-100 mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center">
+            <span class="text-sm text-gray-500">&copy; 2023 GPI Database Application. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript for Dropdowns -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Mobile menu toggle
+        document.querySelector('[data-collapse-toggle="mobile-menu"]').addEventListener('click', function () {
+            const menu = document.querySelector('#mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        });
+    });
+</script>
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find all dropdown buttons within the navbar
+            var dropdowns = document.querySelectorAll('.dropdown-button');
+        
+            dropdowns.forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    // Prevent the default link behavior
+                    e.preventDefault();
+        
+                    // Get the next element, which should be the dropdown menu
+                    var dropdownMenu = this.nextElementSibling;
+        
+                    // Toggle the 'hidden' class to show or hide the dropdown menu
+                    if (dropdownMenu.classList.contains('hidden')) {
+                        dropdownMenu.classList.remove('hidden');
+                    } else {
+                        dropdownMenu.classList.add('hidden');
+                    }
+                });
+            });
+        
+            // Close dropdowns when clicking outside
+            window.addEventListener('click', function(e) {
+                if (!e.target.matches('.dropdown-button')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-menu");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (!openDropdown.classList.contains('hidden')) {
+                            openDropdown.classList.add('hidden');
+                        }
+                    }
+                }
+            });
+        });
+        </script> -->
+        
+</body>
+</html>

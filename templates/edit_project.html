@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Edit Project</h2>
+    <form method="post" action="{{ url_for('main.edit_project', project_id=project.id) }}">
+        <div class="form-group">
+            <label for="name">Project Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ project.name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="donor">Donor/Funder:</label>
+            <input type="text" class="form-control" id="donor" name="donor" value="{{ project.donor }}">
+        </div>
+
+        <div class="form-group">
+            <label for="thematic_area">Thematic Area:</label>
+            <input type="text" class="form-control" id="thematic_area" name="thematic_area" value="{{ project.thematic_area }}">
+        </div>
+
+        <div class="form-group">
+            <label for="start_date">Start Date:</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ project.start_date }}">
+        </div>
+
+        <div class="form-group">
+            <label for="end_date">End Date:</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ project.end_date }}">
+        </div>
+
+        <div class="form-group">
+            <label for="project_amount">Project Amount:</label>
+            <input type="number" class="form-control" id="project_amount" name="project_amount" value="{{ project.project_amount }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Project</button>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // If needed, add JavaScript here
+</script>
+{% endblock %}

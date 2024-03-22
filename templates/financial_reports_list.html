@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Financial Report Display Table -->
+<table class="custom-table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Financial Report ID</th>
+            <th>Project ID</th>
+            <th>Total Budget</th>
+            <th>Total Expenditure</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for financialreport in financial_reports %}
+        <tr>
+            <td>{{ financialreport.id }}</td>
+            <td>{{ financialreport.project_id }}</td>
+            <td>{{ financialreport.budget | format_currency }}</td>
+            <td>{{ financialreport.total_expenditure | format_currency }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

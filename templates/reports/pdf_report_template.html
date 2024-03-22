@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; }
+        h1, h2, h3 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        td, th { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<h4>Reports</h4>
+        <table>
+            <tr>
+                <th>Report Name</th>
+                <th>Period From</th>
+                <th>Period To</th>
+                <th>Number Reached Male</th>
+                <th>Number Reached Female</th>
+                <th>Written Report</th>
+                <th>Photos</th>
+            </tr>
+            {% for report in reports %}
+            <tr>
+                <td>{{ report.report_title }}</td>
+                <td>{{ report.date_from.strftime('%Y-%m-%d') }}</td>
+                <td>{{ report.date_to.strftime('%Y-%m-%d') }}</td>
+                <td>{{ report.number_reached_male }}</td>
+                <td>{{ report.number_reached_female }}</td>
+                <td><a href="{{ report.written_report }}">Download</a></td>
+                <td><a href="{{ report.photos }}">View</a></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7">No reports available.</td>
+            </tr>
+            {% endfor %}
+        </table>
+</body>
+</html>

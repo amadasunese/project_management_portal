@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex space-x-4 mt-4">
+    <!-- <a href="{{ url_for('main.create_project') }}" class="inline-block px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg">Enter New Project</a> -->
+    <a href="{{ url_for('main.generate_pdf_report') }}" class="inline-block px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg">Generate PDF Report</a>
+    <!-- <a href="{{ url_for('main.generate_excel_report') }}" class="inline-block px-6 py-2 bg-gray-500 hover:bg-gray-700 text-white font-bold rounded-lg">Generate Excel Report</a>
+    <a href="{{ url_for('main.generate_word_report') }}" class="inline-block px-6 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded-lg">Generate Word Report</a> -->
+</div>
+<br>
+    <h2>Reports</h2>
+<!-- Report Display Table -->
+<table class="min-w-full divide-y divide-gray-200 shadow-sm">
+    <thead class="bg-gray-100">
+        <tr>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Report ID</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Activity ID</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Report Title</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date From</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date To</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Number Reached (Male)</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Number Reached (Female)</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Written Report</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Photos</th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+        {% for report in reports %}
+        <tr>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ report.id }}</td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ report.activity_id }}</td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ report.report_title }}</td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ report.date_from | date_format }}</td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ report.date_to | date_format }}</td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ report.number_reached_male }}</td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ report.number_reached_female }}</td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {% if report.written_report %}
+                <a href="{{ url_for('static', filename=report.written_report) }}" class="text-blue-600 hover:text-blue-800">View Report</a>
+                {% else %}
+                No Report
+                {% endif %}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {% if report.photos %}
+                <a href="{{ url_for('static', filename=report.photos) }}" class="text-blue-600 hover:text-blue-800">View Photos</a>
+                {% else %}
+                No Photos
+                {% endif %}
+                /static/images/gpilogo.png"
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                <a href="{{ url_for('main.edit_report', report_id=report.id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a> |
+                <a href="{{ url_for('main.delete_report', report_id=report.id) }}" class="text-red-600 hover:text-red-800" onclick="return confirm('Are you sure?');">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

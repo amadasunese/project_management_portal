@@ -1,0 +1,40 @@
+<header>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Sticky Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="/static/images/gpilogo.png" alt="Logo" style="height: 40px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto">
+                <!-- Home Link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.login') }}">Home</a>
+                </li>
+                <!-- Dropdown for Reports -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownReports" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Reports
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownReports">
+                        <li><a class="dropdown-item" href="{{ url_for('main.report') }}">Activity Reports</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.financial_report') }}">Financial Reports</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.analysis') }}">Analysis</a></li>
+                    </ul>
+                </li>
+                <!-- Projects & Activities -->
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.project') }}">Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.activity') }}">Activities</a></li>
+                <!-- Dashboard -->
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+                <!-- Logout -->
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</header>

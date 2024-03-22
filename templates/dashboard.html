@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-semibold text-gray-800 mb-4">DASHBOARD</h1>
+    
+    <!-- Action Buttons -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <a href="{{ url_for('main.create_project') }}" class="block px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg text-center">Create New Project</a>
+        <a href="{{ url_for('main.activity') }}" class="block px-6 py-2 bg-gray-500 hover:bg-gray-700 text-white font-bold rounded-lg text-center">Add New Activity</a>
+        <a href="{{ url_for('main.report') }}" class="block px-6 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded-lg text-center">Add New Activity Report</a>
+        <a href="{{ url_for('main.financial_report') }}" class="block px-6 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded-lg text-center">Add New Financial Report</a>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Summary Boxes -->
+        <div class="bg-white shadow rounded-lg p-4 aspect-square flex items-center justify-center">
+            <div>
+                <h2 class="text-lg font-semibold text-gray-800 mb-2">Summary</h2>
+                <p>Total Projects: <span class="font-bold">{{ project_count }}</span></p>
+                <p>Total Budget (USD): <span class="font-bold">${{ total_budget_usd }}</span></p>
+                <p>Total Budget (EUR): <span class="font-bold">€{{ total_budget_eur }}</span></p>
+                <p>Total Budget (NGN): <span class="font-bold">₦{{ total_budget_ngn }}</span></p>
+            </div>
+        </div>
+
+        <!-- Projects List Box -->
+        <div class="bg-gray-100 shadow rounded-lg p-4 aspect-square">
+            <h2 class="text-lg font-semibold text-gray-900 mb-3">Projects List | <a href="{{ url_for('main.project_list') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg text-center">View All</a></h2>
+            <div class="overflow-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="px-3 py-2 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
+                            <th class="px-3 py-2 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Thematic Area</th>
+                            <th class="px-3 py-2 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Budget</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for project in projects %}
+                        <tr>
+                            <td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{{ project.name }}</td>
+                            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500">{{ project.thematic_area }}</td>
+                            <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500">{{ project.project_amount|format_currency }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="px-3 py-2 whitespace-nowrap text-center text-sm text-gray-500">No projects found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                
+                    <!-- Table Headers and Rows -->
+                </table>
+            </div>
+        </div>
+
+        <!-- Additional Boxes as needed -->
+        <div class="bg-white shadow rounded-lg p-4 aspect-square">
+            <img src="{{ url_for('main.dynamic_chart') }}" alt="Project Expenditure Chart">
+
+            <!-- Content for additional boxes -->
+        </div>
+    </div>
+</div>
+{% endblock %}

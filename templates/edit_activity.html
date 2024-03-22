@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for message, category in get_flashed_messages(with_categories=true) %}
+<div class="alert alert-{{ category }}">{{ message }}</div>
+{% endfor %}
+<h2>Edit activity</h2>
+<form method="post" action="{{ url_for('main.edit_activity', activity_id=activity.id) }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        <label for="project_id">Project ID:</label>
+        <input type="text" class="form-control" id="project_id" name="project_id" value="{{ activity.project_id }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="name">Name of Activity:</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ activity.name }}" required>
+    </div>
+
+        
+
+        <div class="form-group">
+            <label for="project_amount">Budget Amount:</label>
+            <input type="number" class="form-control" id="budget_amount" name="budget_amount" value="{{ activity.budget_amount }}">
+        </div>
+
+        <div class="form-group">
+            <label for="target_beneficiaries">Target Beneficiaries:</label>
+            <input type="number" class="form-control" id="target_beneficiaries" name="target_beneficiaries" value="{{ activity.target_beneficiaries }}">
+        </div>
+
+        <div class="form-group">
+            <label for="target_beneficiaries_male">Target Beneficiaries:</label>
+            <input type="number" class="form-control" id="target_beneficiaries_male" name="target_beneficiaries_male" value="{{ activity.target_beneficiaries_male }}">
+        </div>
+
+        <div class="form-group">
+            <label for="target_beneficiaries_female">Target Beneficiaries:</label>
+            <input type="number" class="form-control" id="target_beneficiaries_female" name="target_beneficiaries_female" value="{{ activity.target_beneficiaries_female }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Project</button>
+    </form>
+{% endblock %}

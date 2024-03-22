@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="searchForm">
+        <form action="" method="get"> <!-- Adjust action as needed -->
+            <input type="text" name="search" placeholder="Search by project or activity name...">
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
+<div class="flex space-x-4 mt-4">
+    <!-- <a href="{{ url_for('main.create_project') }}" class="inline-block px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg">Enter New Project</a> -->
+    <a href="{{ url_for('main.generate_pdf_activity_report') }}" class="inline-block px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg">Generate PDF Report</a>
+    <!-- <a href="{{ url_for('main.generate_excel_report') }}" class="inline-block px-6 py-2 bg-gray-500 hover:bg-gray-700 text-white font-bold rounded-lg">Generate Excel Report</a>
+    <a href="{{ url_for('main.generate_word_report') }}" class="inline-block px-6 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded-lg">Generate Word Report</a> -->
+</div>
+<br>
+<h2>List of Activities</h2>
+<!-- Activity Display Table -->
+<table class="min-w-full leading-normal shadow-md rounded-lg overflow-hidden">
+    <thead class="bg-gray-100">
+        <tr>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Activity ID
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Project ID
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Activity Name
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Target Beneficiaries
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Male Beneficiaries
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Female Beneficiaries
+            </th>
+
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Budget Amount
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Approved Budget
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody class="bg-white">
+        {% for activity in activities %}
+        <tr>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {{ activity.id }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {{ activity.project.name }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {{ activity.name }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {{ activity.target_beneficiaries }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {{ activity.target_beneficiaries_male }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {{ activity.target_beneficiaries_female }}
+            </td>
+            
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {{ activity.budget_amount | format_currency }}
+            </td>
+            <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {{ activity.approved_budget_amount | format_currency }}
+            </td>
+            <td>
+                <a href="{{ url_for('main.delete_activity', activity_id=activity.id) }}">Remove</a>
+                <!-- Edit Button -->
+                <a href="{{ url_for('main.edit_activity', activity_id=activity.id) }}">Edit</a>
+                <!-- Delete Button -->
+            
+            </td>
+            
+            <!-- ... Other data cells ... -->
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+      document.getElementById('searchInput').addEventListener('keyup', function() {
+        var searchValue = this.value.toLowerCase();
+        var tableRows = document.querySelectorAll('#activitiesTable tbody tr');
+        
+        tableRows.forEach(function(row) {
+          var projectName = row.cells[0].textContent.toLowerCase();
+          var activityName = row.cells[1].textContent.toLowerCase();
+          if (projectName.includes(searchValue) || activityName.includes(searchValue)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    });
+    </script>
+{% endblock %}

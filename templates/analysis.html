@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Project Analysis Dashboard</h1>
+    
+    <!-- Displaying some example analysis data -->
+    <div class="analysis">
+        <p>Total Projects: {{ project_count }}</p>
+        <p>Total Budget: {{ total_budget | format_currency }}</p>
+        <!-- Add more analysis data as needed -->
+    </div>
+
+    <!-- Buttons to generate reports -->
+    <div class="analysis">
+        <h2>Generate Reports</h2>
+        <a href="{{ url_for('main.generate_pdf_report') }}"><button>Generate PDF Report</button></a>
+        <a href="{{ url_for('main.generate_excel_report') }}"><button>Generate Excel Report</button></a>
+        <a href="{{ url_for('main.generate_word_report') }}"><button>Generate Word Report</button></a>
+    </div>
+{% endblock %}
+

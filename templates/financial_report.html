@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<title>Financial Report Form</title>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<!-- <script>
+$(document).ready(function() {
+    $('#project_id').change(function() {
+        var projectId = $(this).val();
+        $.ajax({
+            url: '/get-budget/' + projectId,
+            type: 'GET',
+            success: function(response) {
+                $('#budget').val(response.budget);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+</script> -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#project_id').change(function() {
+        var projectId = $(this).val();
+        if (projectId) {
+            $.ajax({
+                url: '/get-budgets/' + projectId,
+                type: 'GET',
+                success: function(response) {
+                    $('#budget').val(response.budget);
+                },
+                error: function(error) {
+                    console.log(error);
+                    $('#budget').val('Error fetching budget');
+                }
+            });
+        } else {
+            $('#budget').val(''); // Clear budget field if no project is selected
+        }
+    });
+});
+</script>
+
+<form action="{{ url_for('main.financial_report') }}" method="post">
+    <label for="project_id">Project ID:</label>
+    <select id="project_id" name="project_id">
+        <option value="">Select a Project</option>
+        {% for project in projects %}
+        <option value="{{ project.id }}">{{ project.name }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="budget">Budget:</label>
+    <input type="text" id="budget" name="budget" readonly>
+    <br>
+    <label for="total_expenditure">Total Expenditure:</label>
+    <input type="text" id="total_expenditure" name="total_expenditure" required>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

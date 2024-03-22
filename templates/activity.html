@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Navigation -->
+<div class="mt-8">
+    <h2 class="text-xl font-semibold text-gray-700">Navigation</h2>
+    <div class="flex space-x-4 mt-4">
+        <a href="{{ url_for('main.activity_list') }}" class="inline-block px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg">View Activities</a>
+    </div>
+</div>
+
+
+<h2>Activities</h2>
+
+
+<form method="post" class="mb-8">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-4">
+        {{ form.project_id.label(class="block text-sm font-medium text-gray-700") }}
+        {{ form.project_id(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required=True) }}
+        <!-- Project name is auto-filled based on project_id selection, handled by JavaScript -->
+    </div>
+
+    <div class="mb-4">
+        {{ form.name.label(class="block text-sm font-medium text-gray-700") }}
+        {{ form.name(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", required=True) }}
+    </div>
+
+    <div class="mb-4">
+        <label for="budget_amount" class="block text-sm font-medium text-gray-700">Activity Budget:</label>
+        <input type="number" id="budget_amount" name="budget_amount" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+    </div>
+
+    <div class="mb-4">
+        <label for="approved_budget_amount" class="block text-sm font-medium text-gray-700">Approved Budget Amount:</label>
+        <input type="number" id="approved_budget_amount" name="approved_budget_amount" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+    </div>
+
+    <div class="mb-4">
+        <label for="target_beneficiaries" class="block text-sm font-medium text-gray-700">Target Beneficiaries:</label>
+        <input type="text" id="target_beneficiaries" name="target_beneficiaries" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+    </div>
+
+    <div class="mb-4">
+        <label for="target_beneficiaries_male" class="block text-sm font-medium text-gray-700">Target Beneficiaries Male:</label>
+        <input type="number" id="target_beneficiaries_male" name="target_beneficiaries_male" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+    </div>
+
+    <div class="mb-4">
+        <label for="target_beneficiaries_female" class="block text-sm font-medium text-gray-700">Target Beneficiaries Female:</label>
+        <input type="number" id="target_beneficiaries_female" name="target_beneficiaries_female" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+    </div>
+
+    <!-- Other fields remain unchanged -->
+
+    {{ form.submit(class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-md focus:outline-none focus:shadow-outline") }}
+</form>
+
+<script>
+    $(document).ready(function() {
+        $.getJSON('/api/projects', function(data) {
+            var project_id_field = $('#project_id');
+            project_id_field.empty(); // Clear existing options
+            data.forEach(function(project) {
+                project_id_field.append(new Option(project.name, project.id));
+            });
+    
+            // Trigger update on form load in case of pre-selected value
+            project_id_field.change();
+        });
+    
+        $('#project_id').change(function() {
+            var selectedProjectName = $("#project_id option:selected").text();
+            $('#project_name').val(selectedProjectName); // Assuming you have a hidden or display field for project_name
+        });
+    });
+    </script>
+
+{% endblock %}
+
+

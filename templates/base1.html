@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GPI Database Application</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .main-content {
+            padding-bottom: 60px; /* Footer height */
+        }
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f5f5f5;
+            text-align: center;
+            height: 60px; /* Footer height */
+        }
+    </style>
+    <!-- Optional: Include Bootstrap JavaScript and its dependencies (jQuery & Popper.js) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <header>
+        <!-- Sticky Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="/static/images/gpilogo.png" alt="Logo" style="width:100px;">
+            </a>
+
+            <!-- Navbar brand name -->
+            <div class="navbar-header mx-auto">
+                <h1 class="navbar-brand mb-0 h1">Girls' Power Initiative (GPI)</h1>
+            </div>
+
+            <!-- Toggler -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar items -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('project') }}">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('activity') }}">Activities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('report') }}">Reports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('financial_report') }}">Financial Reports</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">&copy; 2023 GPI Database Application. All rights reserved.</span>
+        </div>
+    </footer>
+</body>
+</html>

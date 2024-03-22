@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex space-x-4 mt-4">
+    <a href="{{ url_for('main.financial_reports_list') }}" class="inline-block px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg">View Financial Reports</a>
+</div>
+<br>
+
+<h2>Financial Reports</h2>
+<!-- Financial Report Form -->
+<form method="post" class="mb-4" action="{{ url_for('main.financial_report') }}">
+    <div class="custom-form-group">
+        <label for="project_id">Project ID:</label>
+        <select class="form-control" id="project_id" name="project_id" required onchange="fetchBudget(this.value)">
+            <option value="">Select a Project</option>
+            <!-- Project options will be added here by JavaScript -->
+        </select>
+    </div>
+    
+    <div class="custom-form-group">
+        <label for="budget">Budget:</label>
+        <input type="number" class="form-control" step="0.01" id="budget" name="budget" placeholder="Budget will appear here" required readonly>
+        <small id="budgetLoading" class="form-text text-muted" style="display:none;">Loading...</small>
+    </div>
+
+    <div class="custom-form-group">
+        <label for="total_expenditure">Total Expenditure:</label>
+        <input type="number" class="form-control" step="0.01" id="total_expenditure" name="total_expenditure" required>
+    </div>
+
+    <button type="submit" class="btn btn-custom">Add Financial Report</button>
+</form>
+
+<!-- Financial Report Display Table -->
+<table class="custom-table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Financial Report ID</th>
+            <th>Project ID</th>
+            <th>Total Budget</th>
+            <th>Total Expenditure</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for financial_report in financial_reports %}
+        <tr>
+            <td>{{ financial_report.id }}</td>
+            <td>{{ financial_report.project_id }}</td>
+            <td>{{ financial_report.project_amount | format_currency }}</td>
+            <td>{{ financial_report.total_expenditure | format_currency }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- <script>
+    function fetchBudget(projectId) {
+        if (!projectId) return; // Do nothing if projectId is not selected or is cleared
+    
+        // Update the fetch URL to match your Flask endpoint
+        fetch(`/fetch-budget?projectId=${projectId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Handle the case where the project is not found
+                if(data.error){
+                    console.error('Error fetching budget:', data.error);
+                    // Optional: Clear the budget field or handle the error visually
+                    document.getElementById('budget').value = '';
+                } else {
+                    // Update the budget field with the fetched data
+                    document.getElementById('budget').value = data.budget;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching budget:', error);
+                // Optional: Clear the budget field or handle the error visually
+                document.getElementById('budget').value = '';
+            });
+    }
+    </script> -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.getElementById('project_id');
+        
+            fetch('/get-projects')
+                .then(response => response.json())
+                .then(projects => {
+                    projects.forEach(project => {
+                        const option = new Option(project.name, project.id);
+                        dropdown.add(option);
+                    });
+                })
+                .catch(error => console.error('Failed to load projects:', error));
+        });
+        </script>
+    
+    <script>
+        function fetchBudget(projectId) {
+            const budgetInput = document.getElementById('budget');
+            const loadingIndicator = document.getElementById('budgetLoading');
+        
+            if (!projectId) {
+                budgetInput.value = ''; // Clear the budget field if no project ID is selected
+                loadingIndicator.style.display = 'none';
+                return;
+            }
+        
+            loadingIndicator.style.display = 'block'; // Show the loading indicator
+        
+            // Fetch the budget from the backend
+            fetch(`/fetch-budget?projectId=${projectId}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error fetching budget:', data.error);
+                        alert('Error fetching budget. Please try again.'); // Optionally alert the user
+                        budgetInput.value = ''; // Clear the budget field on error
+                    } else {
+                        budgetInput.value = data.budget.toFixed(2); // Update the budget field with fetched data
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error fetching budget. Please check the console for more information.');
+                })
+                .finally(() => {
+                    loadingIndicator.style.display = 'none'; // Hide the loading indicator
+                });
+        }
+        </script>
+{% endblock %}
