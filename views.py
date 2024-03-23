@@ -721,7 +721,7 @@ def signup():
         new_user = User(
             name=form.name.data,
             email=form.email.data,
-            phone=form.phone.data,
+            phone_number=form.phone_number.data,
             password=hashed_password
         )
     try:
