@@ -7,13 +7,20 @@ from models import Project, Activity
 
 
 
+# class SignUpForm(FlaskForm):
+#     email = StringField('Email', validators=[DataRequired(), Email()])
+#     password = PasswordField('Password', validators=[DataRequired()])
+#     confirm_password = PasswordField('Confirm Password',
+#                                      validators=[DataRequired(),
+#                                                  EqualTo('password')])
+
 class SignUpForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    phone_number = StringField('Phone', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(),
-                                                 EqualTo('password')])
-    
+    submit = SubmitField('Sign Up')
+   
 class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
@@ -21,7 +28,6 @@ class LoginForm(FlaskForm):
 
 
 
-# Assuming you have a function to get all projects for the QuerySelectField
 def project_choices():
     return Project.query.all()
 
@@ -44,7 +50,6 @@ class ProjectForm(FlaskForm):
 
 class ActivityForm(FlaskForm):
     project_id = SelectField('Project ID', coerce=int, validators=[DataRequired()])
-    # The project name is auto-filled and not a direct form submission, so it's handled client-side
     name = StringField('Name of Activity', validators=[DataRequired()])
     budget_amount = DecimalField('Activity Budget', places=2, validators=[DataRequired()])
     approved_budget_amount = DecimalField('Approved Budget Amount', places=2, validators=[DataRequired()])
@@ -63,7 +68,7 @@ class ReportForm(FlaskForm):
     number_reached_male = IntegerField('Number Reached Male', validators=[DataRequired()])
     number_reached_female = IntegerField('Number Reached Female', validators=[DataRequired()])
     written_report = TextAreaField('Written Report', validators=[DataRequired(), Length(max=200)])
-    photos = TextAreaField('Photos', validators=[Optional(), Length(max=200)])  # Assuming this might be a URL or path
+    photos = TextAreaField('Photos', validators=[Optional(), Length(max=200)])
 
 
 class FinancialReportForm(FlaskForm):
