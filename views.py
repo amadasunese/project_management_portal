@@ -147,7 +147,7 @@ def project_list():
 @login_required
 def activity():
     form = ActivityForm()
-    form.project_id.choices = [(p.id, p.name) for p in Project.query.all()]  # Populate project choices
+    form.project_id.choices = [(p.id, p.name) for p in Project.query.all()]
 
     if form.validate_on_submit():
         try:
@@ -171,31 +171,6 @@ def activity():
     activities = Activity.query.all()
     return render_template('activity.html', form=form, activities=activities)
 
-
-# @main.route('/report', methods=['GET', 'POST'])
-# @login_required
-# def report():
-#     if request.method == 'POST':
-#         activity_id = request.form['activity_id']
-#         new_report = Report(
-#             activity_id=activity_id,
-#             report_title=str(request.form['report_title']),
-#             date_from=datetime.strptime(request.form['date_from'], '%Y-%m-%d'),
-#             date_to=datetime.strptime(request.form['date_to'], '%Y-%m-%d'),
-#             number_reached_male=int(request.form['number_reached_male']),
-#             number_reached_female=int(request.form['number_reached_female']),
-#             written_report=request.files['written_report'].filename,
-#             photos=request.files['photos'].filename
-#         )
-#         db.session.add(new_report)
-#         db.session.commit()
-#         return redirect(url_for('main.report'))
-
-#     reports = Report.query.all()
-#     return render_template('report.html', reports=reports)
-
-
-# Ensure this directory exists and is writable by your Flask application
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -247,226 +222,12 @@ def report():
     reports = Report.query.all()
     return render_template('report.html', reports=reports)
 
-
-# @main.route('/financial_report', methods=['GET', 'POST'])
-# @login_required
-# def financial_report():
-#     if request.method == 'POST':
-#         project_id = request.form['project_id']
-#         new_financial_report = FinancialReport(
-#             project_id=project_id,
-#             budget=float(request.form['budget']),
-#             expenditure=float(request.form['expenditure'])
-#         )
-#         db.session.add(new_financial_report)
-#         db.session.commit()
-#         return redirect(url_for('main.financial_report'))
-
-#     financial_reports = FinancialReport.query.all()
-#     return render_template('financial_report.html', financial_reports=financial_reports)
-
-# @main.route('/financial_report', methods=['GET', 'POST'])
-# @login_required
-# def financial_report():
-#     if request.method == 'POST':
-#         # Validating that the project_id is provided and is an integer
-#         try:
-#             project_id = int(request.form['project_id'])
-#         except ValueError:
-#             flash("Project ID must be an integer.", "error")
-#             return redirect(url_for('main.financial_report'))
-
-#         # Ensuring budget and total_expenditure are provided and can be converted to float
-#         try:
-#             budget = float(request.form.get('budget', 0))  # Defaults to 0 if not provided
-#             total_expenditure = float(request.form.get('total_expenditure', 0))  # Adjusted to match the form and model
-#         except ValueError:
-#             flash("Budget and Expenditure must be numbers.", "error")
-#             return redirect(url_for('main.financial_report'))
-
-#         new_financial_report = FinancialReport(
-#             project_id=project_id,
-#             budget=budget,
-#             total_expenditure=total_expenditure  # Corrected field name
-#         )
-#         db.session.add(new_financial_report)
-#         db.session.commit()
-#         flash("Financial report added successfully!", "success")
-#         return redirect(url_for('main.financial_report'))
-
-#     financial_reports = FinancialReport.query.all()
-#     return render_template('financial_report.html', forms=form, financial_reports=financial_reports)
-
-
-# @main.route('/financial_report', methods=['GET', 'POST'])
-# @login_required
-# def financial_report():
-#     form = FinancialReportForm()
-#     if form.validate_on_submit():
-#         new_financial_report = FinancialReport(
-#             project_id=form.project_id.data,
-#             budget=form.budget.data,
-#             total_expenditure=form.total_expenditure.data
-#         )
-#         db.session.add(new_financial_report)
-#         db.session.commit()
-#         flash("Financial report added successfully!", "success")
-#         return redirect(url_for('main.financial_report'))
-
-#     financial_reports = FinancialReport.query.all()
-#     return render_template('financial_report.html', form=form, financial_reports=financial_reports)
-
-
-# @main.route('/financial_report', methods=['GET', 'POST'])
-# @login_required
-# def financial_report():
-#     form = FinancialReportForm()
-#     projects = Project.query.all()
-#     form.project_id.choices = [(0, 'Select the project name')] + [(p.id, p.name) for p in projects]
-
-#     if request.method == 'POST' and form.validate_on_submit():
-#         if int(form.project_id.data) == 0:
-#             flash('Please select a project.', 'warning')
-#             return render_template('financial_report.html', form=form, financial_reports=FinancialReport.query.all())
-
-#         new_financial_report = FinancialReport(
-#             project_id=form.project_id.data,
-#             budget=form.budget.data,
-#             total_expenditure=form.total_expenditure.data
-#         )
-#         db.session.add(new_financial_report)
-#         db.session.commit()
-#         flash("Financial report added successfully!", "success")
-#         return redirect(url_for('main.financial_report'))
-
-#     return render_template('financial_report.html', form=form, financial_reports=FinancialReport.query.all())
-
-# @main.route('/financial_report', methods=['GET', 'POST'])
-# @login_required
-# def financial_report():
-#     if request.method == 'POST':
-#         project_id = request.form.get('project_id')
-#         budget = request.form.get('budget')
-#         total_expenditure = request.form.get('total_expenditure')
-
-#         # Validate form input (ensure it's not empty, etc.)
-#         if not project_id or not total_expenditure:
-#             flash('Missing required fields.', 'error')
-#             return redirect(url_for('main.financial_reports_list'))
-
-#         # Create a new FinancialReport instance and save to the database
-#         try:
-#             new_report = FinancialReport(project_id=project_id, budget=budget, total_expenditure=total_expenditure)
-#             db.session.add(new_report)
-#             db.session.commit()
-#             flash('Financial report added successfully.', 'success')
-#         except Exception as e:
-#             db.session.rollback()
-#             flash('Error adding financial report.', 'error')
-#             print(e)  # For debugging purposes
-
-#         return redirect(url_for('main.financial_reports_list'))
-
-#     financial_reports = FinancialReport.query.all()
-#     return render_template('financial_reports_list.html', financial_reports=financial_reports)
-
-# @main.route('/financial_report', methods=['GET', 'POST'])
-# def financial_report():
-#     if request.method == 'POST':
-#         try:
-#             project_id = request.form.get('project_id')
-#             total_expenditure = request.form.get('total_expenditure')
-
-#             # Convert total_expenditure to float if necessary
-#             total_expenditure = float(total_expenditure) if total_expenditure else 0.0
-
-#             if request.method == 'GET':
-#                 projects = Project.query.all()  # Assuming you have a Project model
-#                 return render_template('financial_report.html', projects=projects)
-
-#             # Assuming you want to create a new financial report or update an existing one
-#             financial_report = FinancialReport.query.filter_by(project_id=project_id).first()
-
-#             if financial_report:
-#                 # Update existing report
-#                 financial_report.total_expenditure = total_expenditure
-#             else:
-#                 # Create a new report
-#                 financial_report = FinancialReport(project_id=project_id, total_expenditure=total_expenditure, budget=0)  # Assuming budget is handled differently
-#                 db.session.add(financial_report)
-
-#             db.session.commit()
-#             flash('Financial report submitted successfully.', 'success')
-#         except Exception as e:
-#             db.session.rollback()
-#             flash(f'Error submitting financial report: {e}', 'error')
-
-#         return redirect(url_for('main.financial_report'))
-
-#     # If GET request, or the redirection after POST
-#     return render_template('financial_report.html')
-
-
-# @main.route('/financial_report', methods=['GET', 'POST'])
-# def financial_report():
-#     try:
-#         project_id = request.form.get('project_id')
-#         total_expenditure = request.form.get('total_expenditure')
-
-#         # Assuming you want to create a new financial report or update an existing one
-#         financial_report = FinancialReport.query.filter_by(project_id=project_id).first()
-
-#         if financial_report:
-#             # Update existing report
-#             financial_report.total_expenditure = total_expenditure
-#         else:
-#             # Create a new report
-#             financial_report = FinancialReport(project_id=project_id, total_expenditure=total_expenditure)
-#             db.session.add(financial_report)
-
-#         db.session.commit()
-#         flash('Financial report submitted successfully.', 'success')
-#     except Exception as e:
-#         db.session.rollback()
-#         flash(f'Error submitting financial report: {e}', 'error')
-
-#     # Redirect to a new page or render a template with a success/failure message
-#     return redirect(url_for('main.financial_report'))
-#     # OR simply return a success message for this example
-#     return 'Financial report submitted successfully'
-
-
-# @main.route('/financial_report', methods=['GET', 'POST'])
-# @login_required
-# def financial_report():
-#     form = FinancialReportForm()
-#     projects = Project.query.all()
-#     # Dynamically populate the project_id choices, including a default 'Select...' option
-#     form.project_id.choices = [(0, 'Select the project name')] + [(p.id, p.name) for p in projects]
-
-#     if form.validate_on_submit():
-#         if int(form.project_id.data) == 0:
-#             flash('Please select a project.', 'warning')
-#         else:
-#             new_financial_report = FinancialReport(
-#                 project_id=form.project_id.data,
-#                 budget=form.budget.data,
-#                 total_expenditure=form.total_expenditure.data
-#             )
-#             db.session.add(new_financial_report)
-#             db.session.commit()
-#             flash("Financial report added successfully!", "success")
-#             return redirect(url_for('main.financial_report'))
-
-#     return render_template('financial_report.html', form=form, financial_reports=FinancialReport.query.all())
-
 @main.route('/financial_report', methods=['GET', 'POST'])
 def financial_report():
     if request.method == 'POST':
         try:
             project_id = request.form['project_id']
             total_expenditure = float(request.form['total_expenditure'])
-            # Assuming budget is not submitted by the form since it's displayed automatically
             financial_report = FinancialReport.query.filter_by(project_id=project_id).first()
 
             if financial_report:
@@ -487,18 +248,10 @@ def financial_report():
 
 @main.route('/get-budgets/<int:project_id>')
 def get_budgets(project_id):
-    # project = Project.query.filter_by(project_id=project_id).first()
     project = Project.query.gety(project_id)
     if project:
         return jsonify({'budget': project.budget})
     return jsonify({'error': 'Project not found'}), 404
-
-
-# def get_budget(project_id):
-#     project = Project.query.get(project_id)
-#     if project:
-#         return jsonify({'budget': project.budget})
-#     return jsonify({'error': 'Project not found'}), 404
 
 
 @main.route('/financial_reports_list', methods=['GET', 'POST'])
@@ -519,15 +272,8 @@ def fetch_budget():
             return jsonify({'error': 'Project not found'}), 404
     return jsonify({'error': 'Invalid request'}), 400
 
-# @main.route('/get-projects', methods=['GET'])
-# @login_required  # Remove or adjust if authentication is not required
-# def get_projects():
-#     projects = Project.query.all()
-#     projects_data = [{'id': project.id, 'name': project.name} for project in projects]
-#     return jsonify(projects_data)
-
 @main.route('/get-projects', methods=['GET'])
-@login_required  # Remove or adjust if authentication is not required
+@login_required
 def get_project():
     projects = Project.query.all()
     projects_data = [{'id': project.id, 'name': project.name} for project in projects]
@@ -536,7 +282,7 @@ def get_project():
 
 @main.route('/get_project_budget/<int:project_id>')
 def get_project_budget(project_id):
-    project = Project.query.all()      # get_or_404(project_id)
+    project = Project.query.all()
     return jsonify(budget=project.project_amount)
 
 # Search API
@@ -545,17 +291,6 @@ def get_projects():
     projects = Project.query.all()
     projects_data = [{'id': project.id, 'name': project.name} for project in projects]
     return jsonify(projects_data)
-
-# @main.route('/get-budget/<int:project_id>')
-# def get_budget(project_id):
-#     project = Project.query.get_or_404(project_id)
-#     return jsonify(budget=project.budget)
-
-# @app.route('/get_project_budget/<int:project_id>')
-# def get_project_budget(project_id):
-#     # Placeholder for querying the database. Replace with actual database query.
-#     budget = query_database_for_budget(project_id)
-#     return jsonify({'budget': budget})
 
 @main.route('/get-budget/<int:project_id>')
 def get_budget(project_id):
@@ -681,9 +416,6 @@ def dashboard():
 
     exchange_rates = {'EUR': 0.85, 'USD': 1, 'NGN': 900}
 
-    # # Querying the top 3 most recently added projects
-    # top_projects = Project.query.order_by(Project.date_added.desc()).limit(3).all()
-
     total_budget_usd = db.session.query(db.func.sum(Project.project_amount)).scalar() or 0
 
     total_budget_eur = total_budget_usd * exchange_rates['EUR']
@@ -773,16 +505,12 @@ def logout():
     return render_template('landing_page.html')
 
 
-
-
-# Example route for fetching activities by project ID
 @main.route('/api/activities/<int:project_id>')
 def get_activities(project_id):
     activities = Activity.query.filter_by(project_id=project_id).all()
     activities_data = [{'id': activity.id, 'name': activity.name} for activity in activities]
     return jsonify(activities_data)
 
-# Example route for fetching budget amount by activity ID
 @main.route('/api/activity/budget/<int:activity_id>')
 def get_activity_budget(activity_id):
     activity = Activity.query.get_or_404(activity_id)
@@ -898,9 +626,8 @@ def get_project_data():
     project_names = []
     expenditure_percentages = []
 
-    projects = Project.query.all()  # Fetch all projects
+    projects = Project.query.all()
     for project in projects:
-        # Ensure there's a project amount to avoid division by zero
         if project.project_amount > 0:
             total_approved_budget = sum(activity.approved_budget_amount for activity in project.activities)
             expenditure_percentage = (total_approved_budget / project.project_amount) * 100
@@ -913,7 +640,6 @@ def get_project_data():
 
 @main.route('/dynamic_chart.png')
 def dynamic_chart():
-    # Assuming you have a function to calculate your data
     project_names, expenditure_percentages = get_project_data()
 
     fig = Figure()
