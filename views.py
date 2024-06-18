@@ -64,9 +64,9 @@ def index():
     formatted_total_budget_usd = "{:,.2f}".format(total_budget_usd)
     formatted_total_budget_eur = "{:,.2f}".format(total_budget_eur)
     formatted_total_budget_ngn = "{:,.2f}".format(total_budget_ngn)
-    
 
-    return render_template('dashboard.html', 
+
+    return render_template('dashboard.html',
                            project_count=project_count,
                            projects=projects,
                            total_budget_usd=formatted_total_budget_usd,
@@ -192,13 +192,13 @@ def report():
             if written_report_file and allowed_file(written_report_file.filename) and photos_file and allowed_file(photos_file.filename):
                 written_report_filename = secure_filename(written_report_file.filename)
                 photos_filename = secure_filename(photos_file.filename)
-                
+
                 written_report_path = os.path.join(UPLOAD_FOLDER, written_report_filename)
                 photos_path = os.path.join(UPLOAD_FOLDER, photos_filename)
-                
+
                 written_report_file.save(written_report_path)
                 photos_file.save(photos_path)
-                
+
                 new_report = Report(
                     activity_id=request.form['activity_id'],
                     report_title=request.form['report_title'],
@@ -308,7 +308,18 @@ def project_choices():
 def analysis():
     project_count = Project.query.count()
     total_budget = db.session.query(db.func.sum(Project.project_amount)).scalar()
-    
+
+    total_budget_usd = db.session.query(db.func.sum(Project.project_amount)).scalar() or 0
+
+    exchange_rates = {'EUR': 0.85, 'USD': 1, 'NGN': 900}
+
+    total_budget_eur = total_budget_usd * exchange_rates['EUR']
+    total_budget_ngn = total_budget_usd * exchange_rates['NGN']
+
+    formatted_total_budget_usd = "{:,.2f}".format(total_budget_usd)
+    formatted_total_budget_eur = "{:,.2f}".format(total_budget_eur)
+    formatted_total_budget_ngn = "{:,.2f}".format(total_budget_ngn)
+
     return render_template('analysis.html',
                            project_count=project_count,
                            total_budget=total_budget,
@@ -326,7 +337,7 @@ def analysis():
 def generate_pdf_project_report():
     projects = Project.query.all()
     html = render_template('pdf_report_project_template.html', projects=projects)
-    
+
     return render_pdf(HTML(string=html))
 
 
@@ -335,8 +346,8 @@ def generate_pdf_project_report():
 def generate_pdf_activity_report():
     activities = Activity.query.all()
     project = Project.query.all()
-    
-    html = render_template('reports/pdf_activity_report_template.html', activities=activities, project=project) 
+
+    html = render_template('reports/pdf_activity_report_template.html', activities=activities, project=project)
 
     return render_pdf(HTML(string=html))
 
@@ -344,8 +355,8 @@ def generate_pdf_activity_report():
 @login_required
 def generate_pdf_report():
     reports = Report.query.all()
-    
-    html = render_template('reports/pdf_report_template.html', reports=reports,) 
+
+    html = render_template('reports/pdf_report_template.html', reports=reports,)
 
     return render_pdf(HTML(string=html))
 
@@ -394,7 +405,7 @@ def generate_word_report():
         row_cells[4].text = project.start_date.strftime('%Y-%m-%d')
         row_cells[5].text = project.end_date.strftime('%Y-%m-%d')
         row_cells[6].text = str(project.project_amount)
-    
+
 
     file_stream = BytesIO()
     doc.save(file_stream)
@@ -424,8 +435,8 @@ def dashboard():
     formatted_total_budget_usd = "{:,.2f}".format(total_budget_usd)
     formatted_total_budget_eur = "{:,.2f}".format(total_budget_eur)
     formatted_total_budget_ngn = "{:,.2f}".format(total_budget_ngn)
-    
-    return render_template('dashboard.html', 
+
+    return render_template('dashboard.html',
                            project_count=project_count,
                            projects=projects,
                            total_budget_usd=formatted_total_budget_usd,
@@ -523,7 +534,7 @@ def get_activity_budget(activity_id):
 
 
 @main.route('/delete_activity/<int:activity_id>')
-@login_required  
+@login_required
 def delete_activity(activity_id):
     activity_to_delete = Activity.query.get(activity_id)
     if activity_to_delete:
@@ -551,7 +562,7 @@ def edit_activity(activity_id):
         activity.target_beneficiaries_female = form.target_beneficiaries_female.data
         activity.budget_amount = form.budget_amount.data
         activity.approved_budget_amount = form.approved_budget_amount.data
-        
+
         db.session.commit()
         flash('Activity updated successfully!', 'success')
         return redirect(url_for('main.activity_list'))

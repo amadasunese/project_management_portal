@@ -22,6 +22,12 @@
         .main-content {
             padding-bottom: 60px; /* Footer height */
         }
+
+        .logo_base {
+            width: 60px; /* Adjust the width as needed */
+            max-width: 200px; /* Maximum width for the logo */
+            height: auto; /* Maintain aspect ratio */
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -31,7 +37,7 @@
             <!-- Logo and Navbar brand name -->
             <div class="container flex flex-wrap justify-between items-center mx-auto">
                 <a class="flex items-center" href="#">
-                    <img src="/static/images/gpilogo.png" class="mr-3 h-6 sm:h-9" alt="Logo">
+                    <img src="/static/images/pmp.jpeg" alt="Logo" class="logo_base">
                     <span class="self-center text-xl font-semibold whitespace-nowrap">Project Management Portal</span>
                 </a>
 
@@ -45,7 +51,7 @@
                 <div class="hidden w-full md:block md:w-auto" id="navbar-default">
                     <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                         <li><a href="{{ url_for('main.login') }}" class="block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0" aria-current="page">Home</a></li>
-                        
+
                         <!-- Projects Dropdown -->
                         <li class="dropdown relative">
                             <a href="#" class="dropdown-button block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0 cursor-pointer">Projects</a>
@@ -63,7 +69,7 @@
                                 <li><a href="{{ url_for('main.activity_list') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">View List of Activities</a></li>
                             </ul>
                         </li>
-                        
+
                         <!-- Reports Dropdown -->
                         <li class="dropdown relative">
                             <a href="#" class="dropdown-button block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0 cursor-pointer">Reports</a>
@@ -74,13 +80,13 @@
                                 <li><a href="{{ url_for('main.financial_report') }}" class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100">Financial Reports</a></li>
                             </ul>
                         </li>
-                        
+
                         <!-- Additional navigation items -->
                         <li><a href="{{ url_for('main.analysis') }}" class="block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0">Analysis</a></li>
                         <li><a href="{{ url_for('main.dashboard') }}" class="block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0">Dashboard</a></li>
                         <li><a href="{{ url_for('main.logout') }}" class="block py-2 pr-4 pl-3 text-gray-700 rounded md:bg-transparent md:p-0">Logout</a></li>
                     </ul>
-                        
+
                 </div>
             </div>
         </nav>
@@ -127,6 +133,6 @@
     });
 </script>
 
-        
+
 </body>
 </html>

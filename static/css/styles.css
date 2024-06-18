@@ -209,7 +209,7 @@ p {
     margin: 0; /* Remove any default margin */
     padding: 20px 0; /* Add some padding above and below the text */
     text-align: center; /* Center-align the text */
-   
+
 }
 
 
@@ -218,4 +218,10 @@ p {
 }
 .main-content {
     padding-bottom: 60px; /* Footer height */
+}
+
+.logo {
+    width: 100%; /* Adjust the width as needed */
+    max-width: 200px; /* Maximum width for the logo */
+    height: auto; /* Maintain aspect ratio */
 }
